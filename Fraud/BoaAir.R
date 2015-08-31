@@ -64,16 +64,19 @@ library(AnomalyDetection)
 #Distance matrix
 library(cluster)
 #Get required variables
-subscan <- c(subsetted$MCH.MERCHANT.NAME, subsetted$FIN.TRANSACTION.AMOUNT)
+subscan <- data.frame(subsetted$MCH.MERCHANT.NAME, subsetted$FIN.TRANSACTION.AMOUNT)
+#Find NA values
+sum(is.na(subscan))
 #Calculate distance matrix
-dist <- daisy(subscan, )
+dist <- daisy(subscan, metric = "gower")
 
 library(fpc)
-scan <- dbscan(subsetted$FIN.TRANSACTION.AMOUNT, eps = 1, MinPts = 500)
-str(scan)
-plot(col = scan$cluster + 1L, subsetted$FIN.TRANSACTION.AMOUNT, xlim = c(0,5000), 
-     ylim = c(0, 200))
+scan <- dbscan(subsetted$FIN.TRANSACTION.AMOUNT, eps = 1, MinPts = 600)
 
+scan <- dbscan(dist, eps = 1, MinPts = 500, method = "dist")
+str(scan)
+
+   
 #Evaluate cluster
 #Vector of predicted clusters
 print.dbscan(scan)
