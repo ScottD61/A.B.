@@ -139,3 +139,14 @@ abline(0,0)
 #Residuals vs total footage
 plot(SprCentr$Total.Footage, res)
 abline(0,0)
+
+
+
+
+
+
+
+
+var1 <- c(0.05, 0.06, 0.09, 0.15, 0.20, 0.07)
+var2 <- c(100, 101, 190, 500, 600, 2500)
+data <- data.frame(var1, var2)
