@@ -1,6 +1,7 @@
 #Load .csv file
-SprCentr <- read.csv("/Users/scdavis6/Fraud/Walmart/Walmart/Final.csv", na.strings = "", 
+SprCentr <- read.csv("/Users/scdavis6/A.B./Walmart/Walmart/Final.csv", na.strings = "", 
                      header = TRUE)
+
 #Analyze data
 summary(SprCentr)
 str(SprCentr)

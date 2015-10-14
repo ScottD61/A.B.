@@ -1,19 +1,28 @@
-#Visualizing results with 2 clusters in pam - 3 variables 
+#Visualizing results with 2 clusters in pam - 3 variables
 #Visualizations of cluster results
-#Best one - compares all the plot combintations between three variables 
+#Best one - compares all the plot combintations between three variables
 #PCA plot
 #plot results
 plot(answers8, data = Wal, main = "")
 #Main plot
 plot(Wal3, col = answers8$cluster)
 legend("topright", legend = paste("clusters", 1:2), pch = 1, col = 1:2)
-#Three dimensional scatterplot
+#Three dimensional scatterplot - fix 
 library(scatterplot3d)
 scatterplot3d(Wal3$FY.15.OOS.Rate, Wal3$Average.Cases.Delivered.Per.Week, Wal3$Total.Footage, 
               col = answers8$cluster)
-
+#Get opportunity area through Rate vs Avg Cases Del - done (kinda)
 library(ggplot2)
-#Cluster 1 - Low opportunity
+c <- ggplot(SprCentr, aes(x = FY.15.OOS.Rate, y = Average.Cases.Delivered.Per.Week))
+ca <- c + geom_point(aes(colour = FY.15.OOS.Rate))
+ca + ggtitle("OOS Rate % vs Average Cases Delivered")
+#Add red dots 
+#row 494 in cluster 1 cl1a
+#row 864 in cluster 2 cl2a
+#787 and 1288 - medoids
+
+
+#Cluster 1 - high opportunity
 #Histograms for each numeric value
 #Average deliveries per week - done 
 ade <- ggplot(cl1a, aes(x = Average.Deliveries.Per.Week))
@@ -25,10 +34,11 @@ adm <- ggplot(cl1a, aes(x = Average.Deliveries.Per.Month))
 admw <- adm + geom_histogram(aes(fill = ..count..), binwidth = 1)
 admw + ggtitle("Histogram of Cluster 1 Average Deliveries Per Month")
 
-#OOS Rate % - done
+#OOS Rate % - put bellcurve
 os <- ggplot(cl1a, aes(x = FY.15.OOS.Rate))
 osr <- os + geom_histogram(aes(fill = ..count..))
 osr + ggtitle("Histogram of Cluster 1 OOS Rate %")
+
 
 #Footage - done
 fo <- ggplot(cl1a, aes(x = Total.Footage))
@@ -51,8 +61,8 @@ acl + geom_point() + geom_point(cluster, aes(x = ))
 #Cluster 1
 #cluster 1 scatterplot matrix - done 
 pairs(~FY.15.OOS.Rate + Total.Footage + Average.Deliveries.Per.Week + 
-          Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = cl1a, main = 
-          "FY 15 Scatterplot Matrix", col = "blue")
+        Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = cl1a, main = 
+        "FY 15 Scatterplot Matrix", col = "blue")
 
 #Cluster 1 AB Region histogram - done
 ab1 <- ggplot(cl1a, aes(x = A.B.Region))
@@ -67,7 +77,7 @@ bcad1 + ggtitle("Barchart of Cluster 1 Delivery Schedule Days")
 
 #AB Region compared to OOS Rate - done 
 c1 <- ggplot(cl1a, aes(A.B.Region, FY.15.OOS.Rate))
-c1 + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 1 A.B.Region vs OOS Rate %")
+c1 + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 1 A.B.Region vs OOS Rate %") 
 
 #Delivery schedule compared to OOS Rate - fix 
 da <- ggplot(cl1a, aes(factor(Delivery.Schedule), FY.15.OOS.Rate))
@@ -104,8 +114,8 @@ voo2 + ggtitle("Histogram of Cluster 2 Average Cases Delivered Per Week")
 
 #cluster 2 scatterplot matrix - done 
 pairs(~FY.15.OOS.Rate + Total.Footage + Average.Deliveries.Per.Week + 
-          Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = cl2a, main = 
-          "FY 15 Scatterplot Matrix", col = "blue")
+        Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = cl2a, main = 
+        "FY 15 Scatterplot Matrix", col = "blue")
 
 #Cluster 2 AB Region histogram - done
 ab2 <- ggplot(cl2a, aes(x = A.B.Region))
@@ -120,7 +130,7 @@ bcad2 + ggtitle("Barchart of Cluster 2 Delivery Schedule Days")
 
 #AB Region compared to OOS Rate - done 
 c2 <- ggplot(cl2a, aes(A.B.Region, FY.15.OOS.Rate))
-c2 + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 2 A.B.Region vs OOS Rate %")
+c2 + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 2 A.B.Region vs OOS Rate %") 
 
 #Delivery schedule compared to OOS Rate - fix 
 da2 <- ggplot(cl2a, aes(factor(Delivery.Schedule), FY.15.OOS.Rate))
@@ -171,8 +181,8 @@ aclp + geom_point() + geom_point(cluster, aes(x = ))
 #Cluster 1
 #cluster 1 scatterplot matrix - done 
 pairs(~FY.15.OOS.Rate + Total.Footage + Average.Deliveries.Per.Week + 
-          Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = prob1, main = 
-          "FY 15 Scatterplot Matrix", col = "blue")
+        Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = prob1, main = 
+        "FY 15 Scatterplot Matrix", col = "blue")
 
 #Cluster 1 AB Region histogram - done
 ab1p <- ggplot(prob1, aes(x = A.B.Region))
@@ -187,7 +197,7 @@ bcad1p + ggtitle("Barchart of Cluster 1 Delivery Schedule Days")
 
 #AB Region compared to OOS Rate - done 
 c1p <- ggplot(prob1, aes(A.B.Region, FY.15.OOS.Rate))
-c1p + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 1 A.B.Region vs OOS Rate %")
+c1p + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 1 A.B.Region vs OOS Rate %") 
 
 #Delivery schedule compared to OOS Rate - fix 
 dap <- ggplot(prob1, aes(factor(Delivery.Schedule), FY.15.OOS.Rate))
@@ -225,8 +235,8 @@ voo2 + ggtitle("Histogram of Cluster 2 Average Cases Delivered Per Week")
 
 #cluster 2 scatterplot matrix - done 
 pairs(~FY.15.OOS.Rate + Total.Footage + Average.Deliveries.Per.Week + 
-          Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = prob2, main = 
-          "FY 15 Scatterplot Matrix", col = "blue")
+        Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = prob2, main = 
+        "FY 15 Scatterplot Matrix", col = "blue")
 
 #Cluster 2 AB Region histogram - done
 ab2 <- ggplot(prob2, aes(x = A.B.Region))
@@ -241,11 +251,135 @@ bcad2 + ggtitle("Barchart of Cluster 2 Delivery Schedule Days")
 
 #AB Region compared to OOS Rate - done 
 c2 <- ggplot(prob2, aes(A.B.Region, FY.15.OOS.Rate))
-c2 + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 2 A.B.Region vs OOS Rate %")
+c2 + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 2 A.B.Region vs OOS Rate %") 
 
 #Delivery schedule compared to OOS Rate - fix 
 da2 <- ggplot(prob2, aes(factor(Delivery.Schedule), FY.15.OOS.Rate))
 dba2 <- da2 + geom_boxplot(aes(color = Delivery.Schedule)) 
 dbac2 <- dba2 + theme(axis.text.x = element_text(angle = 90, hjust = 1))
 dbac2 + ggtitle("Cluster 2 Delivery Schedule vs OOS Rate %")
+
+
+
+
+#Non-problematic in cluster 1
+#Histograms for each numeric value
+#Average deliveries per week - done 
+adepa <- ggplot(prob1ab, aes(x = Average.Deliveries.Per.Week))
+adewpa <- adepa + geom_histogram(aes(fill = ..count..))
+adewpa + ggtitle("Histogram of Non-Problematic Cluster 1 Average Deliveries Per Week")
+
+#Average deliveries per month - done
+admpa <- ggplot(prob1ab, aes(x = Average.Deliveries.Per.Month))
+admwpa <- admpa + geom_histogram(aes(fill = ..count..), binwidth = 1)
+admwpa + ggtitle("Histogram of Non-Problematic Cluster 1 Average Deliveries Per Month")
+
+#OOS Rate % - done
+ospa <- ggplot(prob1ab, aes(x = FY.15.OOS.Rate))
+osrpa <- ospa + geom_histogram(aes(fill = ..count..))
+osrpa + ggtitle("Histogram of Non-Problematic Cluster 1 Average Deliveries Per Month")
+
+#Footage - done
+fopa <- ggplot(prob1ab, aes(x = Total.Footage))
+foopa <- fopa + geom_histogram(aes(fill = ..count..))
+foopa + ggtitle("Histogram of Non-Problematic Cluster 1 Total Footage")
+
+#Avg cases del per wk - done 
+vop <- ggplot(prob1ab, aes(x = Average.Cases.Delivered.Per.Week))
+voop <- vop + geom_histogram(aes(fill = ..count..))
+voop + ggtitle("Histogram of Cluster 1 Average Cases Delivered Per Week")
+
+
+#Apply clustering results to dataframe as separate column - FIX 
+Wal$cluster <- answers1$cluster
+#Clustering results
+aclp <- ggplot(Wal, aes(x = FY.15.OOS.Rate, y = Average.Cases.Delivered.Per.Week, color = cluster))
+aclp + geom_point() + geom_point(cluster, aes(x = ))
+
+#Visualizations per cluster
+#Cluster 1
+#cluster 1 scatterplot matrix - done 
+pairs(~FY.15.OOS.Rate + Total.Footage + Average.Deliveries.Per.Week + 
+        Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = prob1ab, main = 
+        "FY 15 Scatterplot Matrix", col = "blue")
+
+#Cluster 1 AB Region histogram - done
+ab1pa <- ggplot(prob1ab, aes(x = A.B.Region))
+abc1pa <- ab1pa + geom_histogram(aes(fill = ..count..)) 
+abc1pa + ggtitle("Barchart of Non-Problematic Cluster 1 A.B. Regions")
+
+#Delivery Schedule - done
+ba1p <- ggplot(data = prob1ab, aes(factor(Delivery.Schedule))) 
+bca1p <- ba1p + geom_bar(aes(fill = ..count..))  
+bcad1p <- bca1p + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+bcad1p + ggtitle("Barchart of Non-Problematic Cluster 1 Delivery Schedule Days")
+
+#AB Region compared to OOS Rate - done 
+c1p <- ggplot(prob1ab, aes(A.B.Region, FY.15.OOS.Rate))
+c1p + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 1 A.B.Region vs OOS Rate %") 
+
+#Delivery schedule compared to OOS Rate - fix 
+dap <- ggplot(prob1ab, aes(factor(Delivery.Schedule), FY.15.OOS.Rate))
+dbap <- dap + geom_boxplot(aes(color = Delivery.Schedule)) 
+dbacp <- dbap + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+dbacp + ggtitle("Non-Problematic Cluster 1 Delivery Schedule vs OOS Rate %")
+
+
+
+
+#Region 2 Problematic Stores
+#Histograms for each numeric value
+#Average deliveries per week - done 
+adepa <- ggplot(prob5, aes(x = Average.Deliveries.Per.Week))
+adewpa <- adepa + geom_histogram(aes(fill = ..count..))
+adewpa + ggtitle("Histogram of Non-Problematic Cluster 1 Average Deliveries Per Week")
+
+#Average deliveries per month - done
+admpa <- ggplot(prob5, aes(x = Average.Deliveries.Per.Month))
+admwpa <- admpa + geom_histogram(aes(fill = ..count..), binwidth = 1)
+admwpa + ggtitle("Histogram of Problematic Cluster 1 Region 2 Average Deliveries Per Month")
+
+#OOS Rate % - done
+ospa <- ggplot(prob5, aes(x = FY.15.OOS.Rate))
+osrpa <- ospa + geom_histogram(aes(fill = ..count..))
+osrpa + ggtitle("Histogram of Problematic Cluster 1 Region 2 OOS Rate %")
+
+#Footage - done
+fopa <- ggplot(prob5, aes(x = Total.Footage))
+foopa <- fopa + geom_histogram(aes(fill = ..count..))
+foopa + ggtitle("Histogram of Problematic Cluster 1 Region 2 Total Footage")
+
+#Avg cases del per wk - done 
+vop <- ggplot(prob5, aes(x = Average.Cases.Delivered.Per.Week))
+voop <- vop + geom_histogram(aes(fill = ..count..))
+voop + ggtitle("Histogram of Cluster 1 Average Cases Delivered Per Week")
+
+
+#Apply clustering results to dataframe as separate column - FIX 
+Wal$cluster <- answers1$cluster
+#Clustering results
+aclp <- ggplot(Wal, aes(x = FY.15.OOS.Rate, y = Average.Cases.Delivered.Per.Week, color = cluster))
+aclp + geom_point() + geom_point(cluster, aes(x = ))
+
+#Visualizations per cluster
+#Cluster 1
+#cluster 1 scatterplot matrix - done 
+pairs(~FY.15.OOS.Rate + Total.Footage + Average.Deliveries.Per.Week + 
+        Average.Deliveries.Per.Month + Average.Deliveries.Per.Week, data = prob5, main = 
+        "FY 15 Scatterplot Matrix", col = "blue")
+
+#Cluster 1 AB Region histogram - done
+ab1pa <- ggplot(prob5, aes(x = A.B.Region))
+abc1pa <- ab1pa + geom_histogram(aes(fill = ..count..)) 
+abc1pa + ggtitle("Barchart of Problematic Cluster 1 Region 2 A.B. Regions")
+
+#Delivery Schedule - done
+ba1p <- ggplot(data = prob5, aes(factor(Delivery.Schedule))) 
+bca1p <- ba1p + geom_bar(aes(fill = ..count..))  
+bcad1p <- bca1p + theme(axis.text.x = element_text(angle = 90, hjust = 1))
+bcad1p + ggtitle("Barchart of Problematic Cluster 1 Region 2 Delivery Schedule Days")
+
+#AB Region compared to OOS Rate - done 
+c1p <- ggplot(prob1ab, aes(A.B.Region, FY.15.OOS.Rate))
+c1p + geom_boxplot(aes(color = factor(A.B.Region))) + ggtitle("Cluster 1 A.B.Region vs OOS Rate %") 
 
